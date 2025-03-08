@@ -1,0 +1,9 @@
+services:
+  db:
+    container_name: dbprivatejet
+    image: postgres:15.1
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
