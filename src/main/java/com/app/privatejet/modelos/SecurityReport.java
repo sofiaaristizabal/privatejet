@@ -27,6 +27,6 @@ public class SecurityReport {
     private String description;
 
     @Column()
-    private Boolean is_resolved = false;
+    private boolean is_resolved = false;
 
 }
