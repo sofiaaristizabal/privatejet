@@ -13,5 +13,5 @@ public interface ISecurityReport extends JpaRepository<SecurityReport, String> {
     public List<SecurityReport> findAll();
     public void deleleteBy(String id);
 
-    public SecurityReport findByName(String name);
+    public Optional<SecurityReport> findByName(String name);
 }

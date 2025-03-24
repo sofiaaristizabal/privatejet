@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface IPivateJetRepository extends JpaRepository<PrivateJet, String> {
 
     public PrivateJet save(PrivateJet privateJet);
-    public Optional<PrivateJet> findByIs(String id);
+    public Optional<PrivateJet> findById(String id);
     public List<PrivateJet> findAll();
     public void deleteById(String id);
 
-    public PrivateJet findByName(String name);
+    public Optional<PrivateJet> findByName(String name);
 }

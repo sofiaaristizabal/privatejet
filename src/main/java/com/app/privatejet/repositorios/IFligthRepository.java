@@ -12,5 +12,5 @@ public interface IFligthRepository extends JpaRepository<Fligth, String> {
     public Optional<Fligth> findById(String id);
     public List<Fligth> findAll();
     public void deleteById(String id);
-    public Fligth findByName(String name);
+    public Optional<Fligth> findByName(String name);
 }

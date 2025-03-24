@@ -16,6 +16,6 @@ public interface IAirportRepository extends JpaRepository<Airport, String> {
 
     public void deleteById(String id);
 
-    public Airport findByName(String name);
+    public Optional<Airport> findByName(String name);
 
 }

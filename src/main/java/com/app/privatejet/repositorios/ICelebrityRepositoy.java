@@ -13,5 +13,5 @@ public interface ICelebrityRepositoy extends JpaRepository <Celebrity, String> {
     public List<Celebrity> findAll();
     public void deleteById(String id);
 
-    public Celebrity findByName(String name);
+    public Optional<Celebrity> findByName(String name);
 }
