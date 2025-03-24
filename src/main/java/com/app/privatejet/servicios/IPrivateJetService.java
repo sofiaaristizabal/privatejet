@@ -10,5 +10,5 @@ public interface IPrivateJetService {
     public PrivateJetDTO addPrivateJet(PrivateJetDTO privateJetDTO);
     public List<PrivateJetDTO> getPrivateJets();
     public Optional<PrivateJetDTO> getPrivateJetById(String id);
-    public Optional<PrivateJetDTO> getPrivateJetByName(String name);
+    public void deleteById(String id);
 }

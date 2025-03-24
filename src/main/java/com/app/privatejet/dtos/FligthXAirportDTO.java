@@ -14,5 +14,5 @@ public class FligthXAirportDTO {
     private String id;
     private Fligth fligth;
     private Airport departure_airport;
-    private Airport arrivale_airport;
+    private Airport arrival_airport;
 }

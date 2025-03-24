@@ -13,5 +13,5 @@ public interface IPivateJetRepository extends JpaRepository<PrivateJet, String> 
     public List<PrivateJet> findAll();
     public void deleteById(String id);
 
-    public Optional<PrivateJet> findByName(String name);
+
 }

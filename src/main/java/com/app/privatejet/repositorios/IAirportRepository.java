@@ -18,4 +18,6 @@ public interface IAirportRepository extends JpaRepository<Airport, String> {
 
     public Optional<Airport> findByName(String name);
 
+    public boolean existsByName(String name);
+
 }
