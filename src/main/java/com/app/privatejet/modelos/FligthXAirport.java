@@ -28,6 +28,35 @@ public class FligthXAirport {
     @JoinColumn(name = "arrival_airport", nullable = false)
     private Airport arrival_airport;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public Fligth getFligth() {
+        return fligth;
+    }
+
+    public void setFligth(Fligth fligth) {
+        this.fligth = fligth;
+    }
+
+    public Airport getDeparture_airport() {
+        return departure_airport;
+    }
+
+    public void setDeparture_airport(Airport departure_airport) {
+        this.departure_airport = departure_airport;
+    }
+
+    public Airport getArrival_airport() {
+        return arrival_airport;
+    }
+
+    public void setArrival_airport(Airport arrival_airport) {
+        this.arrival_airport = arrival_airport;
+    }
 }

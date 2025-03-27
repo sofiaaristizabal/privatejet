@@ -27,7 +27,7 @@ public class SecurityReportService implements ISecurityReportService{
         securityReport.setFligth(securityReportDTO.getFligth());
         securityReport.setReported_by(securityReportDTO.getReported_by());
         securityReport.setDescription(securityReportDTO.getDescription());
-        securityReport.set_resolved(securityReportDTO.is_resolved());
+        securityReport.setIs_resolved(securityReportDTO.is_resolved());
 
         securityReport = securityReportRepository.save(securityReport);
 

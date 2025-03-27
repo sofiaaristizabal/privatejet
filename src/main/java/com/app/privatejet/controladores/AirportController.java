@@ -46,4 +46,5 @@ public class AirportController {
         airportService.deleteAirportById(id);
         return ResponseEntity.noContent().build();
     }
+
 }
