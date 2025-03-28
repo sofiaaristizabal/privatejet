@@ -17,16 +17,16 @@ public class FligthDTO {
     private Timestamp departure_time;
     private Timestamp arrival_time;
     private Purpose purpose;
-    private Celebrity celebrity;
-    private PrivateJet privateJet;
+    private String celebrity_id;
+    private String privateJet_id;
 
-    public FligthDTO(String id, Timestamp departure_time, Timestamp arrival_time, Purpose purpose, Celebrity celebrity, PrivateJet privateJet) {
+    public FligthDTO(String id, Timestamp departure_time, Timestamp arrival_time, Purpose purpose, String celebrity_id, String privateJet_id) {
         this.id = id;
         this.departure_time = departure_time;
         this.arrival_time = arrival_time;
         this.purpose = purpose;
-        this.celebrity = celebrity;
-        this.privateJet = privateJet;
+        this.celebrity_id = celebrity_id;
+        this.privateJet_id = privateJet_id;
     }
 
     public String getId() {
@@ -61,19 +61,19 @@ public class FligthDTO {
         this.purpose = purpose;
     }
 
-    public Celebrity getCelebrity() {
-        return celebrity;
+    public String getCelebrity_id() {
+        return celebrity_id;
     }
 
-    public void setCelebrity(Celebrity celebrity) {
-        this.celebrity = celebrity;
+    public void setCelebrity_id(String celebrity) {
+        this.celebrity_id = celebrity_id;
     }
 
-    public PrivateJet getPrivateJet() {
-        return privateJet;
+    public String getPrivateJet_id() {
+        return privateJet_id;
     }
 
-    public void setPrivateJet(PrivateJet privateJet) {
-        this.privateJet = privateJet;
+    public void setPrivateJet(String privateJet) {
+        this.privateJet_id = privateJet_id;
     }
 }

@@ -12,13 +12,13 @@ public class PrivateJetDTO {
     private String id;
     private String model;
     private int capacity;
-    private Celebrity celebrity;
+    private String celebrity_id;
 
-    public PrivateJetDTO(String id, String model, int capacity, Celebrity celebrity) {
+    public PrivateJetDTO(String id, String model, int capacity, String celebrity_id) {
         this.id = id;
         this.model = model;
         this.capacity = capacity;
-        this.celebrity = celebrity;
+        this.celebrity_id = celebrity_id;
     }
 
     public String getId() {
@@ -45,11 +45,11 @@ public class PrivateJetDTO {
         this.capacity = capacity;
     }
 
-    public Celebrity getCelebrity() {
-        return celebrity;
+    public String getCelebrity_id() {
+        return celebrity_id;
     }
 
-    public void setCelebrity(Celebrity celebrity) {
-        this.celebrity = celebrity;
+    public void setCelebrity_id(String celebrity_id) {
+        this.celebrity_id = celebrity_id;
     }
 }

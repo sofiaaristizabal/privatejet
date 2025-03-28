@@ -2,7 +2,9 @@ package com.app.privatejet.servicios;
 
 import com.app.privatejet.dtos.FligthDTO;
 import com.app.privatejet.modelos.Fligth;
+import com.app.privatejet.repositorios.ICelebrityRepositoy;
 import com.app.privatejet.repositorios.IFligthRepository;
+import com.app.privatejet.repositorios.IPivateJetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,12 @@ public class FligthService implements IFligthService{
     @Autowired
     private IFligthRepository fligthRepository;
 
+    @Autowired
+    private ICelebrityRepositoy celebrityRepositoy;
+
+    @Autowired
+    private IPivateJetRepository pivateJetRepository;
+
     @Override
     public FligthDTO addFligth(@Valid FligthDTO fligthDTO) {
 
@@ -27,8 +35,13 @@ public class FligthService implements IFligthService{
         fligth.setDeparture_time(fligthDTO.getDeparture_time());
         fligth.setArrival_time(fligthDTO.getArrival_time());
         fligth.setPurpose(fligthDTO.getPurpose());
-        fligth.setCelebrity(fligthDTO.getCelebrity());
-        fligth.setPrivateJet(fligthDTO.getPrivateJet());
+        fligth.setCelebrity(
+                celebrityRepositoy.findById(fligthDTO.getCelebrity_id())
+                        .orElseThrow(() -> new EntityNotFoundException("Celebrity not found with id: " + fligthDTO.getCelebrity_id()))
+        );
+        fligth.setPrivateJet(
+                pivateJetRepository.findById(fligthDTO.getPrivateJet_id()).orElseThrow(() -> new EntityNotFoundException("Celebrity not found with id: " + fligthDTO.getCelebrity_id()))
+        );
 
         fligth = fligthRepository.save(fligth);
 
@@ -66,8 +79,8 @@ public class FligthService implements IFligthService{
                 fligth.getDeparture_time(),
                 fligth.getArrival_time(),
                 fligth.getPurpose(),
-                fligth.getCelebrity(),
-                fligth.getPrivateJet()
+                fligth.getCelebrity().getId(),
+                fligth.getPrivateJet().getId()
         );
     }
 }

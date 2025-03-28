@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 public class SecurityReportDTO {
 
     private String id;
-    private Fligth fligth;
+    private String fligth_id;
     private String reported_by;
     private String description;
     private boolean is_resolved;
 
-    public SecurityReportDTO(String id, Fligth fligth, String reported_by, String description, boolean is_resolved) {
+    public SecurityReportDTO(String id, String fligth_id, String reported_by, String description, boolean is_resolved) {
         this.id = id;
-        this.fligth = fligth;
+        this.fligth_id = fligth_id;
         this.reported_by = reported_by;
         this.description = description;
         this.is_resolved = is_resolved;
@@ -31,12 +31,12 @@ public class SecurityReportDTO {
         this.id = id;
     }
 
-    public Fligth getFligth() {
-        return fligth;
+    public String getFligth_id() {
+        return fligth_id;
     }
 
-    public void setFligth(Fligth fligth) {
-        this.fligth = fligth;
+    public void setFligth_id(String fligth_id) {
+        this.fligth_id = fligth_id;
     }
 
     public String getReported_by() {

@@ -2,6 +2,7 @@ package com.app.privatejet.servicios;
 
 import com.app.privatejet.dtos.PrivateJetDTO;
 import com.app.privatejet.modelos.PrivateJet;
+import com.app.privatejet.repositorios.ICelebrityRepositoy;
 import com.app.privatejet.repositorios.IPivateJetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -20,13 +21,18 @@ public class PrivateJetService implements IPrivateJetService{
     @Autowired
     private IPivateJetRepository pivateJetRepository;
 
+    @Autowired
+    private ICelebrityRepositoy celebrityRepositoy;
+
     @Override
     public PrivateJetDTO addPrivateJet(@Valid PrivateJetDTO privateJetDTO) {
 
         PrivateJet privateJet = new PrivateJet();
         privateJet.setModel(privateJetDTO.getModel());
         privateJet.setCapacity(privateJetDTO.getCapacity());
-        privateJet.setCelebrity(privateJetDTO.getCelebrity());
+        privateJet.setCelebrity(
+                celebrityRepositoy.findById(privateJetDTO.getCelebrity_id()).orElseThrow(() -> new EntityNotFoundException("Celebrity not found with id: " + privateJetDTO.getCelebrity_id()))
+        );
 
         privateJet = pivateJetRepository.save(privateJet);
 
@@ -66,7 +72,7 @@ public class PrivateJetService implements IPrivateJetService{
                 privateJet.getId(),
                 privateJet.getModel(),
                 privateJet.getCapacity(),
-                privateJet.getCelebrity()
+                privateJet.getCelebrity().getId()
         );
     }
 }

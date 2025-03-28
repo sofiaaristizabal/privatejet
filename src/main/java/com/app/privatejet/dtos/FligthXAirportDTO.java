@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 public class FligthXAirportDTO {
 
     private String id;
-    private Fligth fligth;
-    private Airport departure_airport;
-    private Airport arrival_airport;
+    private String fligth_id;
+    private String departure_airport_id;
+    private String arrival_airport_id;
 
-    public FligthXAirportDTO(String id, Fligth fligth, Airport departure_airport, Airport arrival_airport) {
+    public FligthXAirportDTO(String id, String fligth_id, String departure_airport_id, String arrival_airport_id) {
         this.id = id;
-        this.fligth = fligth;
-        this.departure_airport = departure_airport;
-        this.arrival_airport = arrival_airport;
+        this.fligth_id = fligth_id;
+        this.departure_airport_id = departure_airport_id;
+        this.arrival_airport_id = arrival_airport_id;
     }
 
     public String getId() {
@@ -30,27 +30,27 @@ public class FligthXAirportDTO {
         this.id = id;
     }
 
-    public Fligth getFligth() {
-        return fligth;
+    public String getFligth_id() {
+        return fligth_id;
     }
 
-    public void setFligth(Fligth fligth) {
-        this.fligth = fligth;
+    public void setFligth_id(String fligth_id) {
+        this.fligth_id = fligth_id;
     }
 
-    public Airport getDeparture_airport() {
-        return departure_airport;
+    public String getDeparture_airport_id() {
+        return departure_airport_id;
     }
 
-    public void setDeparture_airport(Airport departure_airport) {
-        this.departure_airport = departure_airport;
+    public void setDeparture_airport_id(String departure_airport_id) {
+        this.departure_airport_id = departure_airport_id;
     }
 
-    public Airport getArrival_airport() {
-        return arrival_airport;
+    public String getArrival_airport_id() {
+        return arrival_airport_id;
     }
 
-    public void setArrival_airport(Airport arrival_airport) {
-        this.arrival_airport = arrival_airport;
+    public void setArrival_airport_id(String arrival_airport_id) {
+        this.arrival_airport_id = arrival_airport_id;
     }
 }

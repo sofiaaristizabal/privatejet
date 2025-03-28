@@ -2,6 +2,7 @@ package com.app.privatejet.servicios;
 
 import com.app.privatejet.dtos.SecurityReportDTO;
 import com.app.privatejet.modelos.SecurityReport;
+import com.app.privatejet.repositorios.IFligthRepository;
 import com.app.privatejet.repositorios.ISecurityReportRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -20,11 +21,16 @@ public class SecurityReportService implements ISecurityReportService{
     @Autowired
     private ISecurityReportRepository securityReportRepository;
 
+    @Autowired
+    private IFligthRepository fligthRepository;
+
     @Override
     public SecurityReportDTO addSecurityReport(@Valid SecurityReportDTO securityReportDTO) {
 
         SecurityReport securityReport = new SecurityReport();
-        securityReport.setFligth(securityReportDTO.getFligth());
+        securityReport.setFligth(
+                fligthRepository.findById(securityReportDTO.getFligth_id()).orElseThrow(() -> new EntityNotFoundException("Fligth not found with id: " + securityReportDTO.getFligth_id()))
+        );
         securityReport.setReported_by(securityReportDTO.getReported_by());
         securityReport.setDescription(securityReportDTO.getDescription());
         securityReport.setIs_resolved(securityReportDTO.is_resolved());
@@ -63,7 +69,7 @@ public class SecurityReportService implements ISecurityReportService{
     private SecurityReportDTO convertirADTO( SecurityReport securityReport){
         return new SecurityReportDTO(
                 securityReport.getId(),
-                securityReport.getFligth(),
+                securityReport.getFligth().getId(),
                 securityReport.getReported_by(),
                 securityReport.getDescription(),
                 securityReport.is_resolved()
