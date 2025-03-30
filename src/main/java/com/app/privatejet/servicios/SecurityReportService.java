@@ -7,6 +7,9 @@ import com.app.privatejet.repositorios.ISecurityReportRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -25,6 +28,7 @@ public class SecurityReportService implements ISecurityReportService{
     private IFligthRepository fligthRepository;
 
     @Override
+    @CacheEvict(value = {"securityReports", "securityReport"}, allEntries = true)
     public SecurityReportDTO addSecurityReport(@Valid SecurityReportDTO securityReportDTO) {
 
         SecurityReport securityReport = new SecurityReport();
@@ -41,12 +45,14 @@ public class SecurityReportService implements ISecurityReportService{
     }
 
     @Override
+    @Cacheable(value = "securityReports")
     public List<SecurityReportDTO> getSecurityReports() {
 
         return securityReportRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable(value = "securityReport", key = "#id")
     public Optional<SecurityReportDTO> getSecurityReportById(String id) {
 
         if(!securityReportRepository.existsById(id)){
@@ -55,8 +61,25 @@ public class SecurityReportService implements ISecurityReportService{
         return securityReportRepository.findById(id).map(this::convertirADTO);
     }
 
+    @Override
+    @CachePut(value="airport", key="#id")
+    @CacheEvict(value = "airports", allEntries = true)
+    public SecurityReportDTO updateSecurityReport(String id, SecurityReportDTO securityReportDTO) {
+        return securityReportRepository.findById(id).map(
+                securityReport -> {
+                    securityReport.setReported_by(securityReportDTO.getReported_by());
+                    securityReport.setDescription(securityReportDTO.getDescription());
+                    securityReport.setIs_resolved(securityReportDTO.is_resolved());
+                    securityReport.setFligth(fligthRepository.findById(securityReportDTO.getFligth_id()).orElseThrow(() -> new EntityNotFoundException("Fligth not found with id: " + securityReportDTO.getFligth_id())));
+
+                    return convertirADTO(securityReportRepository.save(securityReport));
+                }
+        ).orElseThrow(() -> new RuntimeException("security report not found"));
+    }
+
 
     @Override
+    @CacheEvict(value = {"airport", "airports"}, key = "#id", allEntries = true)
     public void deleteSecurityReportById(String id) {
 
         if(!securityReportRepository.existsById(id)){

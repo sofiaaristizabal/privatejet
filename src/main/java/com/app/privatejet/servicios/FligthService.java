@@ -8,6 +8,9 @@ import com.app.privatejet.repositorios.IPivateJetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -29,6 +32,7 @@ public class FligthService implements IFligthService{
     private IPivateJetRepository pivateJetRepository;
 
     @Override
+    @CacheEvict(value = {"fligths", "fligth"}, allEntries = true)
     public FligthDTO addFligth(@Valid FligthDTO fligthDTO) {
 
         Fligth  fligth = new Fligth();
@@ -49,11 +53,13 @@ public class FligthService implements IFligthService{
     }
 
     @Override
+    @Cacheable(value = "fligths")
     public List<FligthDTO> getFligths() {
         return fligthRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable(value = "fligth", key = "#id")
     public Optional<FligthDTO> getFligthById(String id) {
 
         if(!fligthRepository.existsById(id)){
@@ -63,6 +69,24 @@ public class FligthService implements IFligthService{
     }
 
     @Override
+    @CachePut(value="fligth", key="#id")
+    @CacheEvict(value = "fligths", allEntries = true)
+    public FligthDTO updateFligth(String id, FligthDTO fligthDTO) {
+        return fligthRepository.findById(id).map(
+                fligth -> {
+                    fligth.setDeparture_time(fligthDTO.getDeparture_time());
+                    fligth.setArrival_time(fligthDTO.getArrival_time());
+                    fligth.setPurpose(fligthDTO.getPurpose());
+                    fligth.setCelebrity(celebrityRepositoy.findById(fligthDTO.getCelebrity_id()).orElseThrow(() -> new EntityNotFoundException("Celebrity not found with id: " + fligthDTO.getCelebrity_id())));
+                    fligth.setPrivateJet(pivateJetRepository.findById(fligthDTO.getPrivateJet_id()).orElseThrow(() -> new EntityNotFoundException("Private Jet not found with id: " + fligthDTO.getPrivateJet_id())));
+
+                    return convertirADTO(fligthRepository.save(fligth));
+                }
+        ).orElseThrow(() -> new RuntimeException("fligth not found"));
+    }
+
+    @Override
+    @CacheEvict(value = {"fligth", "fligths"}, key = "#id", allEntries = true)
     public void deleteFligthById(String id) {
 
         if(!fligthRepository.existsById(id)){

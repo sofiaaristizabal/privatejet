@@ -6,6 +6,9 @@ import com.app.privatejet.repositorios.ICelebrityRepositoy;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -21,6 +24,7 @@ public class CelebrityService implements ICelebrityService{
     private ICelebrityRepositoy celebrityRepository;
 
     @Override
+    @CacheEvict(value = {"celebrities", "celebrity"}, allEntries = true)
     public CelebrityDTO addCelebrity(@Valid CelebrityDTO celebrityDTO) {
 
         Celebrity celebrity = new Celebrity();
@@ -35,11 +39,13 @@ public class CelebrityService implements ICelebrityService{
     }
 
     @Override
+    @Cacheable(value = "celebrities")
     public List<CelebrityDTO> getCelebrities() {
         return celebrityRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable(value = "celebrity", key = "#Id")
     public Optional<CelebrityDTO> getCelebrityById(String Id) {
 
         if(!celebrityRepository.existsById(Id)){
@@ -50,15 +56,33 @@ public class CelebrityService implements ICelebrityService{
     }
 
     @Override
-    public Optional<CelebrityDTO> getCelebrityByName(String Name) {
+    @Cacheable(value = "celebrity", key = "#name")
+    public Optional<CelebrityDTO> getCelebrityByName(String name) {
 
-        if(!celebrityRepository.existsByName(Name)){
-            throw new EntityNotFoundException("celebrity with name" + Name + "Not found");
+        if(!celebrityRepository.existsByName(name)){
+            throw new EntityNotFoundException("celebrity with name" + name + "Not found");
         }
-        return celebrityRepository.findByName(Name).map(this::convertirADTO);
+        return celebrityRepository.findByName(name).map(this::convertirADTO);
     }
 
     @Override
+    @CachePut(value="celebrity", key="#id")
+    @CacheEvict(value = "celebrities", allEntries = true)
+    public CelebrityDTO updateCelebrity(String id, CelebrityDTO celebrityDTO) {
+        return celebrityRepository.findById(id).map(
+                celebrity ->{
+                    celebrity.setName(celebrityDTO.getName());
+                    celebrity.setProfession(celebrityDTO.getProfession());
+                    celebrity.setNet_worth(celebrityDTO.getNet_worth());
+                    celebrity.setSuspicious_activity(celebrityDTO.isSuspicious_activity());
+
+                    return convertirADTO(celebrityRepository.save(celebrity));
+                }
+        ).orElseThrow(() -> new RuntimeException("celebrity not found"));
+    }
+
+    @Override
+    @CacheEvict(value = {"celebrity", "celebrities"}, key = "#id", allEntries = true)
     public void deleteCelebrityById(String id) {
 
         if(!celebrityRepository.existsById(id)){

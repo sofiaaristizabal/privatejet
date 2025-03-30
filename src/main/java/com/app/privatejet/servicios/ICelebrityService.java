@@ -12,6 +12,7 @@ public interface ICelebrityService {
     public List<CelebrityDTO> getCelebrities();
     public Optional<CelebrityDTO> getCelebrityById( String Id);
     public Optional<CelebrityDTO> getCelebrityByName (String Name);
+    public CelebrityDTO updateCelebrity(String id, CelebrityDTO celebrityDTO);
     public void deleteCelebrityById (String id);
 
 

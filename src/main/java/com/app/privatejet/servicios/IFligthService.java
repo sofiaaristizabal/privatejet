@@ -11,6 +11,7 @@ public interface IFligthService {
     public FligthDTO addFligth(@Valid FligthDTO fligthDTO);
     public List<FligthDTO> getFligths();
     public Optional<FligthDTO> getFligthById(String id);
+    public FligthDTO updateFligth(String id, FligthDTO fligthDTO);
     public void deleteFligthById(String id);
 
 

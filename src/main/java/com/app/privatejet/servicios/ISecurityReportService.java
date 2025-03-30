@@ -11,6 +11,7 @@ public interface ISecurityReportService {
     public SecurityReportDTO addSecurityReport(@Valid SecurityReportDTO securityReportDTO);
     public List<SecurityReportDTO> getSecurityReports();
     public Optional<SecurityReportDTO> getSecurityReportById(String id);
+    public SecurityReportDTO updateSecurityReport(String id, SecurityReportDTO securityReportDTO);
     public void deleteSecurityReportById(String id);
 
 }
