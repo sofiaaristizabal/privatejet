@@ -28,3 +28,15 @@ services:
       - ./pgadmin:/certs/server.cert
       - ./pgadmin:/certs/server.key
       - ./pgadmin:/pgadmin4/servers.json
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - myDB
+
+volumes:
+  postgres_data:
